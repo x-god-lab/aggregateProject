@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: acb5df97-64bc-4f5f-ad02-a51216594dfb
+        file-extension: yaml
+  application:
+    name: aggregate-info
