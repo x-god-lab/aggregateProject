@@ -1,6 +1,5 @@
 package com.info.aggregateinfo.controller;
 
-
 import com.info.aggregateinfo.pojo.dto.AggregateAdminDTO;
 import com.info.aggregateinfo.pojo.entity.AggregateAdmin;
 import com.info.aggregateinfo.service.AggregateAdminService;
@@ -9,8 +8,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import utils.Response;
-
-import java.util.List;
 
 /**
  * <p>
