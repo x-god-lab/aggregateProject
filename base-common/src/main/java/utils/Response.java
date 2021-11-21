@@ -46,6 +46,15 @@ public class Response<T> {
     /**
      * @author xin
      * @create 2021/11/15 1:34
+     * @description 状态码+数据
+     **/
+    public static <T> Response<T> success(T data){
+        return new Response<>(ExceptionEnum._200.getCode(),ExceptionEnum._200.getMsg(),data);
+    }
+
+    /**
+     * @author xin
+     * @create 2021/11/15 1:34
      * @description 状态码+错误提示信息
      **/
     public static <T> Response<T> error(String msg){

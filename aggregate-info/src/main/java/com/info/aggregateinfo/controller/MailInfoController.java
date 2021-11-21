@@ -3,6 +3,7 @@ package com.info.aggregateinfo.controller;
 
 import com.info.aggregateinfo.pojo.dto.MailDTO;
 import com.info.aggregateinfo.service.MailInfoService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,10 +28,19 @@ public class MailInfoController {
     @Autowired
     private MailInfoService mailInfoService;
 
+    @ApiOperation("邮件发送")
     @PostMapping("mailSend")
     public Response<String> mailSend(@RequestBody @Validated MailDTO params){
         String response = mailInfoService.sendMail(params);
         return Response.success(response);
     }
+
+    @ApiOperation(("发送验证码"))
+    @PostMapping("generateVerCode")
+    public Response<String> generateVerCode(@RequestBody MailDTO params){
+        mailInfoService.generateVerCode(params.getReceiver());
+        return Response.success("发送成功");
+    }
+
 }
 

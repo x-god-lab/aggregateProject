@@ -18,8 +18,14 @@ public interface MailInfoService extends IService<MailInfo> {
     /**
     * @author xin
     * @create 2021/11/21 1:49
-    * @description
+    * @description 发送邮件
     **/
     String sendMail(MailDTO params);
 
+    /**
+    * @author xin
+    * @create 2021/11/21 13:55
+    * @description 发送验证码
+    **/
+    void generateVerCode(String receiver);
 }

@@ -1,12 +1,17 @@
 package com.info.aggregateinfo.controller;
 
 import com.info.aggregateinfo.pojo.dto.AggregateAdminDTO;
+import com.info.aggregateinfo.pojo.dto.LoginDTO;
 import com.info.aggregateinfo.pojo.entity.AggregateAdmin;
 import com.info.aggregateinfo.service.AggregateAdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import utils.Response;
 
 /**
@@ -30,6 +35,12 @@ public class AggregateAdminController {
     public Response<AggregateAdmin> register(@RequestBody AggregateAdminDTO params){
         AggregateAdmin aggregateAdmin = aggregateAdminService.register(params);
         return Response.success("成功",aggregateAdmin);
+    }
+
+    @ApiOperation("登录")
+    @PostMapping("login")
+    public Response<Object> login(@RequestBody @Validated LoginDTO params){
+        return aggregateAdminService.login(params);
     }
 }
 

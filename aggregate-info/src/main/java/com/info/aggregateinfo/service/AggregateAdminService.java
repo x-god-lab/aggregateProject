@@ -2,7 +2,9 @@ package com.info.aggregateinfo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.info.aggregateinfo.pojo.dto.AggregateAdminDTO;
+import com.info.aggregateinfo.pojo.dto.LoginDTO;
 import com.info.aggregateinfo.pojo.entity.AggregateAdmin;
+import utils.Response;
 
 /**
  * <p>
@@ -20,4 +22,11 @@ public interface AggregateAdminService extends IService<AggregateAdmin> {
     * @description 用户注册信息
     **/
     AggregateAdmin register(AggregateAdminDTO params);
+
+    /**
+    * @author xin
+    * @create 2021/11/21 14:58
+    * @description 登录
+    **/
+    Response<Object> login(LoginDTO params);
 }
