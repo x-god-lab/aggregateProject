@@ -33,6 +33,7 @@
     <modules>
         <module>base-common</module>
         <module>aggregate-info</module>
+        <module>aggregate-gateway</module>
     </modules>
 
 
