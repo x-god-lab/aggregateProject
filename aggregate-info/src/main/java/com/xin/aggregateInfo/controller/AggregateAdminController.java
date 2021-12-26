@@ -1,14 +1,24 @@
 package com.xin.aggregateInfo.controller;
 
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.LineCaptcha;
 import com.xin.aggregateInfo.pojo.dto.AggregateAdminDTO;
 import com.xin.aggregateInfo.pojo.dto.LoginDTO;
 import com.xin.aggregateInfo.service.AggregateAdminService;
+import com.xin.utils.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import com.xin.utils.Response;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -26,6 +36,9 @@ public class AggregateAdminController {
     @Autowired
     private AggregateAdminService aggregateAdminService;
 
+    @Resource
+    private RedisTemplate<String,Object> redisTemplate;
+
     @ApiOperation("注册")
     @PostMapping("register")
     public Response<Object> register(@RequestBody AggregateAdminDTO params){
@@ -36,6 +49,45 @@ public class AggregateAdminController {
     @PostMapping("login")
     public Response<Object> login(@RequestBody @Validated LoginDTO params){
         return aggregateAdminService.login(params);
+    }
+
+    @ApiOperation("生成图片验证码")
+    @GetMapping("getShearCaptcha")
+    public Response<String> getShearCaptcha(HttpServletRequest request, HttpServletResponse response) {
+
+        OutputStream out = null;
+        try {
+            out = response.getOutputStream();// 取得输出流
+            //定义图形验证码的长、宽、验证码字符数、干扰线宽度
+            //定义图形验证码的长和宽
+            LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100);
+            redisTemplate.opsForValue().set("generate:login:code",lineCaptcha.getCode(),5, TimeUnit.MINUTES);
+            //ShearCaptcha captcha = new ShearCaptcha(200, 100, 4, 4);
+            //图形验证码写出，可以写出到文件，也可以写出到流
+//            captcha.write("/Users/sunww/Desktop/shear.png");
+            lineCaptcha.write(out);
+            //验证图形验证码的有效性，返回boolean值
+            boolean checkPass = lineCaptcha.verify(lineCaptcha.getCode());
+            // 将生成的验证码code放入sessoin中
+            if (checkPass){
+                request.getSession().setAttribute("code", lineCaptcha.getCode());
+            }
+            out.flush();  // 将缓存中的数据立即强制刷新, 将缓冲区的数据输出到客户端浏览器
+            out.close(); // 关闭输出流
+
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return Response.error("图片生成失败");
     }
 }
 

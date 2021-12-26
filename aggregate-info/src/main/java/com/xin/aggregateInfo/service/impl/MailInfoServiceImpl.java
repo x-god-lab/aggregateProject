@@ -56,7 +56,7 @@ public class MailInfoServiceImpl extends ServiceImpl<MailInfoMapper, MailInfo> i
     public void generateVerCode(String receiver) {
         // 生成随机验证码
         String code = randomCode();
-        redisTemplate.opsForValue().set("generate:ver:code",code,5, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("generate:register:code",code,5, TimeUnit.MINUTES);
         MailDTO params = new MailDTO();
         params.setSender(sender);
         params.setReceiver(receiver);
