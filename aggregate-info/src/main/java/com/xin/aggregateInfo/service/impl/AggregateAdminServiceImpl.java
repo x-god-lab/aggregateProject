@@ -37,6 +37,11 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
 
     @Override
     public Response<Object> register(AggregateAdminDTO params) {
+        // 获取验证码
+        String code = (String) redisTemplate.opsForValue().get("generate:ver:code");
+        if (!params.getCode().equals(code)){
+            return Response.error("验证码不正确，请重新获取");
+        }
         QueryWrapper<AggregateAdmin> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", params.getUsername());
         AggregateAdmin admin = baseMapper.selectOne(queryWrapper);
@@ -65,11 +70,6 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
 
     @Override
     public Response<Object> login(LoginDTO params){
-        // 获取验证码
-        String code = (String) redisTemplate.opsForValue().get("generate:ver:code");
-        if (!params.getCode().equals(code)){
-            return Response.error("验证码不正确，请重新登录");
-        }
         QueryWrapper<AggregateAdmin> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", params.getUsername());
         AggregateAdmin admin = baseMapper.selectOne(queryWrapper);

@@ -1,6 +1,5 @@
 package com.xin.aggregateInfo.pojo.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,7 +27,6 @@ public class AggregateAdminDTO {
     @ApiModelProperty("邮箱")
     private String email;
 
-    @TableField("nick_name")
     @ApiModelProperty("昵称")
     private String nickName;
 
@@ -36,11 +34,12 @@ public class AggregateAdminDTO {
     private String note;
 
     @ApiModelProperty("创建时间")
-    @TableField("create_time")
     private LocalDateTime createTime;
 
     @ApiModelProperty("最后登录时间")
-    @TableField("login_time")
     private LocalDateTime loginTime;
+
+    @ApiModelProperty("验证码")
+    private String code;
 
 }

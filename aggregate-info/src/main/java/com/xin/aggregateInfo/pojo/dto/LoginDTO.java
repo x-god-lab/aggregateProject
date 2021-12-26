@@ -22,8 +22,4 @@ public class LoginDTO {
     @ApiModelProperty(value = "密码",required = true)
     @NotEmpty(message = "密码不能为空")
     private String password;
-
-    @ApiModelProperty(value = "验证码",required = true)
-    @NotEmpty(message = "验证码不能为空")
-    private String code;
 }
