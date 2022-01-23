@@ -3,6 +3,7 @@ package com.xin.aggregateInfo.controller;
 
 import com.xin.aggregateInfo.pojo.dto.MailDTO;
 import com.xin.aggregateInfo.service.MailInfoService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +24,7 @@ import com.xin.utils.Response;
  */
 @RestController
 @RequestMapping("/mailInfo")
+@Api(tags = "邮件信息")
 public class MailInfoController {
 
     @Autowired

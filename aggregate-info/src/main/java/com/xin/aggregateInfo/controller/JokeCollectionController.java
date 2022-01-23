@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/jokeCollection")
-@Api("笑话")
+@Api(tags = "笑话")
 public class JokeCollectionController {
 
     @Autowired

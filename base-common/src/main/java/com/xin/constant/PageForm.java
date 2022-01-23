@@ -14,8 +14,8 @@ import lombok.Data;
 public class PageForm {
 
     @ApiModelProperty("页数")
-    private Integer limit;
+    private Integer limit = 1;
 
     @ApiModelProperty("列数")
-    private Integer size;
+    private Integer size = 10;
 }

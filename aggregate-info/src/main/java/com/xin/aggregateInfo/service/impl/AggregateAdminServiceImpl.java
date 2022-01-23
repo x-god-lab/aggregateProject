@@ -1,25 +1,36 @@
 package com.xin.aggregateInfo.service.impl;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
+import cn.hutool.extra.ftp.Ftp;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xin.aggregateInfo.mapper.AggregateAdminMapper;
 import com.xin.aggregateInfo.pojo.dto.AggregateAdminDTO;
 import com.xin.aggregateInfo.pojo.dto.LoginDTO;
 import com.xin.aggregateInfo.pojo.entity.AggregateAdmin;
+import com.xin.aggregateInfo.pojo.upload.UploadParams;
 import com.xin.aggregateInfo.service.AggregateAdminService;
 import com.xin.constant.Constants;
+import com.xin.utils.JwtUtil;
+import com.xin.utils.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.Md5Crypt;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import com.xin.utils.Response;
-import com.xin.utils.UUIDUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -30,10 +41,14 @@ import java.time.LocalDateTime;
  * @since 2021-11-14
  */
 @Service
+@Slf4j
 public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper, AggregateAdmin> implements AggregateAdminService {
 
     @Resource
     private RedisTemplate<String,Object> redisTemplate;
+
+    @Autowired
+    private UploadParams params;
 
     @Override
     public Response<Object> register(AggregateAdminDTO params) {
@@ -50,7 +65,7 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
         }
         AggregateAdmin aggregateAdmin = new AggregateAdmin();
         BeanUtils.copyProperties(params,aggregateAdmin);
-        aggregateAdmin.setId(UUIDUtils.getUUId());
+        aggregateAdmin.setId(IdUtil.fastSimpleUUID());
         aggregateAdmin.setCreateTime(LocalDateTime.now());
         aggregateAdmin.setStatus(Constants.STATUS);
         aggregateAdmin.setSalt(getSalt());
@@ -69,7 +84,7 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
     }
 
     @Override
-    public Response<Object> login(LoginDTO params){
+    public Response<String> login(LoginDTO params){
         String code = (String) redisTemplate.opsForValue().get("generate:login:code");
         if (!params.getCode().equals(code)){
             return Response.error("验证码不正确");
@@ -83,6 +98,32 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
         if (!SecureUtil.md5(params.getPassword()+admin.getSalt()).equals(admin.getPassword())){
             return Response.error("密码错误，请重新输入！");
         }
-        return Response.success(admin);
+        String token = JwtUtil.getToken(params.getUsername(),params.getPassword());
+        assert token != null;
+        redisTemplate.opsForValue().set("token",token,15, TimeUnit.MINUTES);
+        return Response.success("登录成功",token);
+    }
+
+    @Override
+    public String upload(MultipartFile file) throws IOException {
+        Ftp ftp = new Ftp(params.getHost(),params.getPort(),params.getUsername(),params.getPassword());
+        String pathName = DateUtil.format(DateUtil.date(), DatePattern.NORM_DATE_PATTERN);
+        boolean exist = ftp.exist(params.getFilePath() + pathName);
+        if (!exist){
+            boolean mkdir = ftp.mkdir(pathName);
+            if (!mkdir){
+                return "创建文件夹失败";
+            }
+        }
+        String filename = file.getOriginalFilename();
+        String subAfter = StrUtil.subAfter(filename, ".", true);
+        filename = IdUtil.fastSimpleUUID()+"."+subAfter;
+        boolean upload = ftp.upload(pathName, filename, file.getInputStream());
+        ftp.close();
+        if (upload){
+            return params.getFilePath()+pathName+"/"+filename;
+        }else {
+            return null;
+        }
     }
 }

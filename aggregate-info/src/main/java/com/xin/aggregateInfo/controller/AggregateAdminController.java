@@ -4,14 +4,17 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import com.xin.aggregateInfo.pojo.dto.AggregateAdminDTO;
 import com.xin.aggregateInfo.pojo.dto.LoginDTO;
+import com.xin.aggregateInfo.pojo.entity.AggregateAdmin;
 import com.xin.aggregateInfo.service.AggregateAdminService;
 import com.xin.utils.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +50,7 @@ public class AggregateAdminController {
 
     @ApiOperation("登录")
     @PostMapping("login")
-    public Response<Object> login(@RequestBody @Validated LoginDTO params){
+    public Response<String> login(@RequestBody @Validated LoginDTO params){
         return aggregateAdminService.login(params);
     }
 
@@ -88,6 +91,23 @@ public class AggregateAdminController {
             }
         }
         return Response.error("图片生成失败");
+    }
+
+    @ApiOperation("用户上传头像")
+    @PostMapping("upload")
+    @Transactional
+    public Response<String> upload(@RequestParam("file") MultipartFile file,@RequestParam("id") String id) throws IOException {
+        // 上传文件到FTP
+        String result = aggregateAdminService.upload(file);
+        // 保存文件到数据库
+        AggregateAdmin admin = new AggregateAdmin();
+        admin.setId(id);
+        admin.setIcon(result);
+        boolean updateById = aggregateAdminService.updateById(admin);
+        if (updateById){
+            return Response.success("文件上传成功",result);
+        }
+        return Response.error("文件上传失败");
     }
 }
 

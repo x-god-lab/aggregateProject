@@ -8,4 +8,6 @@ package com.xin.aggregateInfo.constant;
 public interface Constants {
 
     String YZM = "验证码";
+
+    String CODE = "1";
 }

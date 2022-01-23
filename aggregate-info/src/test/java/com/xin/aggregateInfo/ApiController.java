@@ -1,14 +1,22 @@
 package com.xin.aggregateInfo;
 
 import com.alibaba.fastjson.JSON;
+import com.mzlion.easyokhttp.HttpClient;
 import com.xin.aggregateInfo.mapper.JokeCollectionMapper;
+import com.xin.aggregateInfo.mapper.MusicInformationMapper;
 import com.xin.aggregateInfo.pojo.entity.JokeCollection;
+import com.xin.aggregateInfo.pojo.entity.MusicInformation;
 import okhttp3.*;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,6 +30,9 @@ public class ApiController {
 
     @Autowired
     private JokeCollectionMapper jokeCollectionMapper;
+
+    @Autowired
+    private MusicInformationMapper musicInformationMapper;
 
     /**
     * @author xin
@@ -54,4 +65,47 @@ public class ApiController {
         }
     }
 
+    @Test
+    public void saveMusic() throws JSONException {
+        int insert = 0;
+        for (int i = 0; i < 100; i++) {
+            String param = HttpClient.post("https://api.uomg.com/api/rand.music")
+//                .param("mid","1909956702")
+                    .param("sort","热歌榜")
+                    .param("format","json")
+                    .execute().asString();
+            JSONObject json = new JSONObject(param);
+            Object data = json.get("data");
+            JSONObject jsonObject = new JSONObject(data.toString());
+            MusicInformation musicInformation = new MusicInformation();
+            musicInformation.setMusicName((String) jsonObject.get("name"));
+            musicInformation.setMusicUrl((String) jsonObject.get("url"));
+            musicInformation.setAuthor((String) jsonObject.get("artistsname"));
+            musicInformation.setMusicPicurl((String) jsonObject.get("picurl"));
+            musicInformation.setCreateTime(LocalDateTime.now());
+            musicInformation.setUpdateTime(LocalDateTime.now());
+            int result = musicInformationMapper.insert(musicInformation);
+            if (result > 0){
+                insert++;
+            }
+        }
+        System.out.println("共增加了"+insert+"记录");
+    }
+
+    @Test
+    public void downLoadMusic() throws Exception {
+        URL url = new URL("http://music.163.com/song/media/outer/url?id=1846489646");
+        HttpURLConnection urlConnection=(HttpURLConnection)url.openConnection();
+        InputStream inputStream = urlConnection.getInputStream();
+        //文件爬完之后要放在哪里的地址
+        FileOutputStream fileOutputStream = new FileOutputStream("嘉宾.mp3");
+        byte[] bytes = new byte[1024];
+        int len;
+        while((len=inputStream.read(bytes))!=-1){
+            fileOutputStream.write(bytes,0,len);
+        }
+        fileOutputStream.close();
+        inputStream.close();
+        urlConnection.disconnect();
+    }
 }

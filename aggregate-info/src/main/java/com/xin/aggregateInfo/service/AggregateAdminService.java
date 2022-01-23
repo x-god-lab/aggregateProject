@@ -5,6 +5,9 @@ import com.xin.aggregateInfo.pojo.dto.AggregateAdminDTO;
 import com.xin.aggregateInfo.pojo.dto.LoginDTO;
 import com.xin.aggregateInfo.pojo.entity.AggregateAdmin;
 import com.xin.utils.Response;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * <p>
@@ -28,5 +31,12 @@ public interface AggregateAdminService extends IService<AggregateAdmin> {
     * @create 2021/11/21 14:58
     * @description 登录
     **/
-    Response<Object> login(LoginDTO params);
+    Response<String> login(LoginDTO params);
+
+    /**
+    * @author xin
+    * @create 2022/1/16 16:22
+    * @description 上传文件
+    **/
+    String upload(MultipartFile file) throws IOException;
 }
