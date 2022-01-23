@@ -39,4 +39,11 @@ public interface AggregateAdminService extends IService<AggregateAdmin> {
     * @description 上传文件
     **/
     String upload(MultipartFile file) throws IOException;
+
+    /**
+    * @author xin
+    * @create 2022/1/23 20:02
+    * @description 删除文件
+    **/
+    String deleteFile(String fileName);
 }

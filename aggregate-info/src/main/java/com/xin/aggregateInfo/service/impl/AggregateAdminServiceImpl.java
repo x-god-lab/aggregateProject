@@ -104,9 +104,13 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
         return Response.success("登录成功",token);
     }
 
+    private Ftp getFtpConfig(){
+        return new Ftp(params.getHost(),params.getPort(),params.getUsername(),params.getPassword());
+    }
+
     @Override
     public String upload(MultipartFile file) throws IOException {
-        Ftp ftp = new Ftp(params.getHost(),params.getPort(),params.getUsername(),params.getPassword());
+        Ftp ftp = getFtpConfig();
         String pathName = DateUtil.format(DateUtil.date(), DatePattern.NORM_DATE_PATTERN);
         boolean exist = ftp.exist(params.getFilePath() + pathName);
         if (!exist){
@@ -124,6 +128,21 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
             return params.getFilePath()+pathName+"/"+filename;
         }else {
             return null;
+        }
+    }
+
+    @Override
+    public String deleteFile(String fileName) {
+        Ftp ftp = getFtpConfig();
+        boolean existFile = ftp.existFile(fileName);
+        if (!existFile){
+            return "文件不存在";
+        }
+        boolean delFile = ftp.delFile(fileName);
+        if (delFile){
+            return "文件删除成功";
+        }else {
+            return "文件删除失败";
         }
     }
 }
