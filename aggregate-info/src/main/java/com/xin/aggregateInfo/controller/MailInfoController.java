@@ -43,6 +43,5 @@ public class MailInfoController {
         mailInfoService.generateVerCode(params.getReceiver());
         return Response.success("发送成功");
     }
-
 }
 
