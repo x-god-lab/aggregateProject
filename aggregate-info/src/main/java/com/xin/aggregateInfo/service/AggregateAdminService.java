@@ -3,11 +3,13 @@ package com.xin.aggregateInfo.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xin.aggregateInfo.pojo.dto.AggregateAdminDTO;
 import com.xin.aggregateInfo.pojo.dto.LoginDTO;
+import com.xin.aggregateInfo.pojo.dto.OrgCodeDTO;
 import com.xin.aggregateInfo.pojo.entity.AggregateAdmin;
 import com.xin.utils.Response;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * <p>
@@ -46,4 +48,6 @@ public interface AggregateAdminService extends IService<AggregateAdmin> {
     * @description 删除文件
     **/
     String deleteFile(String fileName);
+
+    void jsonToSql(List<OrgCodeDTO> params);
 }

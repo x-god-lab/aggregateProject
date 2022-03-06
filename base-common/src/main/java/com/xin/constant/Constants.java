@@ -8,4 +8,12 @@ package com.xin.constant;
 public interface Constants {
 
     int STATUS = 1;
+
+    int SHORT_CODE = 2;
+
+    int MEDIUM_CODE = 4;
+
+    int LONG_CODE = 6;
+
+    int MAX_LONG_CODE = 9;
 }

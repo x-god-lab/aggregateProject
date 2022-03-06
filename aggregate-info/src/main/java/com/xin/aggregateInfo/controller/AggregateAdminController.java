@@ -4,6 +4,7 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import com.xin.aggregateInfo.pojo.dto.AggregateAdminDTO;
 import com.xin.aggregateInfo.pojo.dto.LoginDTO;
+import com.xin.aggregateInfo.pojo.dto.OrgCodeDTO;
 import com.xin.aggregateInfo.pojo.entity.AggregateAdmin;
 import com.xin.aggregateInfo.service.AggregateAdminService;
 import com.xin.utils.Response;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -60,18 +62,18 @@ public class AggregateAdminController {
 
         OutputStream out = null;
         try {
-            out = response.getOutputStream();// 取得输出流
+            // 取得输出流
+            out = response.getOutputStream();
             //定义图形验证码的长、宽、验证码字符数、干扰线宽度
             //定义图形验证码的长和宽
             LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100);
             redisTemplate.opsForValue().set("generate:login:code",lineCaptcha.getCode(),5, TimeUnit.MINUTES);
             //ShearCaptcha captcha = new ShearCaptcha(200, 100, 4, 4);
             //图形验证码写出，可以写出到文件，也可以写出到流
-//            captcha.write("/Users/sunww/Desktop/shear.png");
             lineCaptcha.write(out);
             //验证图形验证码的有效性，返回boolean值
             boolean checkPass = lineCaptcha.verify(lineCaptcha.getCode());
-            // 将生成的验证码code放入sessoin中
+            // 将生成的验证码code放入session中
             if (checkPass){
                 request.getSession().setAttribute("code", lineCaptcha.getCode());
             }
@@ -108,6 +110,13 @@ public class AggregateAdminController {
             return Response.success("文件上传成功",result);
         }
         return Response.error("文件上传失败");
+    }
+
+    @ApiOperation("json转地区编码")
+    @PostMapping("jsonToSql")
+    public Response<String> jsonToSql(@RequestBody List<OrgCodeDTO> params){
+        aggregateAdminService.jsonToSql(params);
+        return Response.success("转换成功");
     }
 }
 
