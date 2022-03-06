@@ -11,7 +11,7 @@ import java.util.List;
  * @description
  **/
 @Data
-public class OrgCodeDTO {
+public class AreaOrgCodeDTO {
 
     @ApiModelProperty("地区编码")
     private String code;
@@ -20,5 +20,5 @@ public class OrgCodeDTO {
     private String name;
 
     @ApiModelProperty("子类")
-    private List<OrgCodeDTO> children;
+    private List<AreaOrgCodeDTO> children;
 }

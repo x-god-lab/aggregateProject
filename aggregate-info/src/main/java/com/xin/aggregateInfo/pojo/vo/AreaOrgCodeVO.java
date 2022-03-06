@@ -11,7 +11,7 @@ import java.util.List;
  * @description
  **/
 @Data
-public class OrgCodeVO {
+public class AreaOrgCodeVO {
 
     @ApiModelProperty("地区编码")
     private String orgCode;
@@ -26,5 +26,5 @@ public class OrgCodeVO {
     private Integer weight;
 
     @ApiModelProperty("子类")
-    private List<OrgCodeVO> children;
+    private List<AreaOrgCodeVO> children;
 }

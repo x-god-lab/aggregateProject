@@ -1,8 +1,8 @@
 package com.xin.aggregateInfo.controller;
 
 
-import com.xin.aggregateInfo.pojo.dto.OrgCodeDTO;
-import com.xin.aggregateInfo.pojo.vo.OrgCodeVO;
+import com.xin.aggregateInfo.pojo.dto.AreaOrgCodeDTO;
+import com.xin.aggregateInfo.pojo.vo.AreaOrgCodeVO;
 import com.xin.aggregateInfo.service.AreaOrgCodeService;
 import com.xin.utils.Response;
 import io.swagger.annotations.Api;
@@ -29,19 +29,19 @@ import java.util.List;
 public class AreaOrgCodeController {
 
     @Autowired
-    private AreaOrgCodeService orgCodeService;
+    private AreaOrgCodeService areaOrgCodeService;
 
     @ApiOperation("json转地区编码")
     @PostMapping("jsonToSql")
-    public Response<String> jsonToSql(@RequestBody List<OrgCodeDTO> params){
-        orgCodeService.jsonToSql(params);
+    public Response<String> jsonToSql(@RequestBody List<AreaOrgCodeDTO> params){
+        areaOrgCodeService.jsonToSql(params);
         return Response.success("转换成功");
     }
 
     @ApiOperation("机构编码")
     @PostMapping("getOrgCodeTree")
-    public Response<OrgCodeVO> getOrgCodeTree(@RequestBody OrgCodeDTO params){
-        OrgCodeVO orgCodeVO = orgCodeService.getOrgCodeTree(params);
+    public Response<AreaOrgCodeVO> getOrgCodeTree(@RequestBody AreaOrgCodeDTO params){
+        AreaOrgCodeVO orgCodeVO = areaOrgCodeService.getOrgCodeTree(params);
         return Response.success(orgCodeVO);
     }
 }

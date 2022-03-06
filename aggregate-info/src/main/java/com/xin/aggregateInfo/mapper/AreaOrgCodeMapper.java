@@ -2,7 +2,7 @@ package com.xin.aggregateInfo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xin.aggregateInfo.pojo.entity.AreaOrgCode;
-import com.xin.aggregateInfo.pojo.vo.OrgCodeVO;
+import com.xin.aggregateInfo.pojo.vo.AreaOrgCodeVO;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +24,5 @@ public interface AreaOrgCodeMapper extends BaseMapper<AreaOrgCode> {
     * @create 2022/3/6 14:26
     * @description
     **/
-    List<OrgCodeVO> getTreeList(@Param("parentCode") String parentCode);
+    List<AreaOrgCodeVO> getTreeList(@Param("parentCode") String parentCode);
 }

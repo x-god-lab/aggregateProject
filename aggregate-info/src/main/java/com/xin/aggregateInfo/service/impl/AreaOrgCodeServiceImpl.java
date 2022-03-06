@@ -5,9 +5,9 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xin.aggregateInfo.mapper.AreaOrgCodeMapper;
-import com.xin.aggregateInfo.pojo.dto.OrgCodeDTO;
+import com.xin.aggregateInfo.pojo.dto.AreaOrgCodeDTO;
 import com.xin.aggregateInfo.pojo.entity.AreaOrgCode;
-import com.xin.aggregateInfo.pojo.vo.OrgCodeVO;
+import com.xin.aggregateInfo.pojo.vo.AreaOrgCodeVO;
 import com.xin.aggregateInfo.service.AreaOrgCodeService;
 import com.xin.constant.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,8 @@ public class AreaOrgCodeServiceImpl extends ServiceImpl<AreaOrgCodeMapper, AreaO
     private AreaOrgCodeMapper orgCodeMapper;
 
     @Override
-    public void jsonToSql(List<OrgCodeDTO> params) {
-        for (OrgCodeDTO param : params) {
+    public void jsonToSql(List<AreaOrgCodeDTO> params) {
+        for (AreaOrgCodeDTO param : params) {
             AreaOrgCode areaOrgCode = new AreaOrgCode();
             areaOrgCode.setOrgCode(param.getCode());
             areaOrgCode.setOrgName(param.getName());
@@ -55,20 +55,20 @@ public class AreaOrgCodeServiceImpl extends ServiceImpl<AreaOrgCodeMapper, AreaO
     }
 
     @Override
-    public OrgCodeVO getOrgCodeTree(OrgCodeDTO params) {
-        OrgCodeVO orgCodeVO = new OrgCodeVO();
+    public AreaOrgCodeVO getOrgCodeTree(AreaOrgCodeDTO params) {
+        AreaOrgCodeVO orgCodeVO = new AreaOrgCodeVO();
         AreaOrgCode areaOrgCode = baseMapper.selectById(params.getCode());
         BeanUtil.copyProperties(areaOrgCode,orgCodeVO);
-        List<OrgCodeVO> childrenCode = getChildrenCode(areaOrgCode.getOrgCode());
+        List<AreaOrgCodeVO> childrenCode = getChildrenCode(areaOrgCode.getOrgCode());
         orgCodeVO.setChildren(childrenCode);
         return orgCodeVO;
     }
 
-    private List<OrgCodeVO> getChildrenCode(String orgCode){
-        List<OrgCodeVO> orgCodes = orgCodeMapper.getTreeList(orgCode);
+    private List<AreaOrgCodeVO> getChildrenCode(String orgCode){
+        List<AreaOrgCodeVO> orgCodes = orgCodeMapper.getTreeList(orgCode);
         if (CollUtil.isNotEmpty(orgCodes)){
-            for (OrgCodeVO code : orgCodes) {
-                List<OrgCodeVO> childrenCode = getChildrenCode(code.getOrgCode());
+            for (AreaOrgCodeVO code : orgCodes) {
+                List<AreaOrgCodeVO> childrenCode = getChildrenCode(code.getOrgCode());
                 code.setChildren(childrenCode);
             }
         }

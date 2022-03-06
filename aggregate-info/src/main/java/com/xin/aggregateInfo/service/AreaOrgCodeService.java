@@ -2,9 +2,9 @@ package com.xin.aggregateInfo.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xin.aggregateInfo.pojo.dto.OrgCodeDTO;
+import com.xin.aggregateInfo.pojo.dto.AreaOrgCodeDTO;
 import com.xin.aggregateInfo.pojo.entity.AreaOrgCode;
-import com.xin.aggregateInfo.pojo.vo.OrgCodeVO;
+import com.xin.aggregateInfo.pojo.vo.AreaOrgCodeVO;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface AreaOrgCodeService extends IService<AreaOrgCode> {
 
-    void jsonToSql(List<OrgCodeDTO> params);
+    void jsonToSql(List<AreaOrgCodeDTO> params);
 
-    OrgCodeVO getOrgCodeTree(OrgCodeDTO params);
+    AreaOrgCodeVO getOrgCodeTree(AreaOrgCodeDTO params);
 }
