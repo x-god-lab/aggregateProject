@@ -4,7 +4,6 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import com.xin.aggregateInfo.pojo.dto.AggregateAdminDTO;
 import com.xin.aggregateInfo.pojo.dto.LoginDTO;
-import com.xin.aggregateInfo.pojo.dto.OrgCodeDTO;
 import com.xin.aggregateInfo.pojo.entity.AggregateAdmin;
 import com.xin.aggregateInfo.service.AggregateAdminService;
 import com.xin.utils.Response;
@@ -22,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -110,13 +108,6 @@ public class AggregateAdminController {
             return Response.success("文件上传成功",result);
         }
         return Response.error("文件上传失败");
-    }
-
-    @ApiOperation("json转地区编码")
-    @PostMapping("jsonToSql")
-    public Response<String> jsonToSql(@RequestBody List<OrgCodeDTO> params){
-        aggregateAdminService.jsonToSql(params);
-        return Response.success("转换成功");
     }
 }
 

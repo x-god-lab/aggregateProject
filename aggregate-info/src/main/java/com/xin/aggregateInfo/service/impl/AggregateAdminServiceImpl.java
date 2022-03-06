@@ -1,6 +1,5 @@
 package com.xin.aggregateInfo.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
@@ -12,12 +11,10 @@ import cn.hutool.extra.ftp.Ftp;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xin.aggregateInfo.mapper.AggregateAdminMapper;
-import com.xin.aggregateInfo.mapper.OrgCodeMapper;
+import com.xin.aggregateInfo.mapper.AreaOrgCodeMapper;
 import com.xin.aggregateInfo.pojo.dto.AggregateAdminDTO;
 import com.xin.aggregateInfo.pojo.dto.LoginDTO;
-import com.xin.aggregateInfo.pojo.dto.OrgCodeDTO;
 import com.xin.aggregateInfo.pojo.entity.AggregateAdmin;
-import com.xin.aggregateInfo.pojo.entity.OrgCode;
 import com.xin.aggregateInfo.pojo.upload.UploadParams;
 import com.xin.aggregateInfo.service.AggregateAdminService;
 import com.xin.constant.Constants;
@@ -34,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -56,7 +52,7 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
     private UploadParams params;
 
     @Autowired
-    private OrgCodeMapper orgCodeMapper;
+    private AreaOrgCodeMapper orgCodeMapper;
 
     @Override
     public Response<Object> register(AggregateAdminDTO params) {
@@ -151,30 +147,6 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
             return "文件删除成功";
         }else {
             return "文件删除失败";
-        }
-    }
-
-    @Override
-    public void jsonToSql(List<OrgCodeDTO> params) {
-        for (OrgCodeDTO param : params) {
-            OrgCode orgCode = new OrgCode();
-            orgCode.setOrgCode(param.getCode());
-            orgCode.setOrgName(param.getName());
-            orgCode.setCreateTime(LocalDateTime.now());
-            orgCode.setUpdateTime(LocalDateTime.now());
-            if (StrUtil.length(orgCode.getOrgCode()) == Constants.SHORT_CODE){
-                orgCode.setParentCode("0");
-            }else if (StrUtil.length(orgCode.getOrgCode()) == Constants.MEDIUM_CODE){
-                orgCode.setParentCode(StrUtil.sub(orgCode.getOrgCode(),0,2));
-            }else if (StrUtil.length(orgCode.getOrgCode()) == Constants.LONG_CODE){
-                orgCode.setParentCode(StrUtil.sub(orgCode.getOrgCode(),0,4));
-            }else if (StrUtil.length(orgCode.getOrgCode()) == Constants.MAX_LONG_CODE){
-                orgCode.setParentCode(StrUtil.sub(orgCode.getOrgCode(),0,6));
-            }
-            orgCodeMapper.insert(orgCode);
-            if (CollUtil.isNotEmpty(param.getChildren())){
-                jsonToSql(param.getChildren());
-            }
         }
     }
 }
