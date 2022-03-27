@@ -40,7 +40,7 @@ public class UserInfoVO {
     private String sex;
 
     @ApiModelProperty("出生日期")
-    @JsonFormat(pattern = DatePattern.NORM_DATE_PATTERN,timezone = "GMT+8")
+    @JsonFormat(pattern = DatePattern.NORM_DATE_PATTERN)
     private Date birth;
 
     @ApiModelProperty("学历")
@@ -62,10 +62,10 @@ public class UserInfoVO {
     private String email;
 
     @ApiModelProperty("创建时间")
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN,timezone = "GMT+8")
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private Date createTime;
 
     @ApiModelProperty("更新时间")
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN,timezone = "GMT+8")
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private Date updateTime;
 }
