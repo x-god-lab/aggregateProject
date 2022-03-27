@@ -18,4 +18,7 @@ public class PageForm {
 
     @ApiModelProperty("列数")
     private Integer size = 10;
+
+    @ApiModelProperty("页数")
+    private Integer form = 0;
 }

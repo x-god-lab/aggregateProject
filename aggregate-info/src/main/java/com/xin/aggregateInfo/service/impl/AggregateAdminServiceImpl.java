@@ -1,5 +1,6 @@
 package com.xin.aggregateInfo.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
@@ -11,7 +12,6 @@ import cn.hutool.extra.ftp.Ftp;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xin.aggregateInfo.mapper.AggregateAdminMapper;
-import com.xin.aggregateInfo.mapper.AreaOrgCodeMapper;
 import com.xin.aggregateInfo.pojo.dto.AggregateAdminDTO;
 import com.xin.aggregateInfo.pojo.dto.LoginDTO;
 import com.xin.aggregateInfo.pojo.entity.AggregateAdmin;
@@ -50,9 +50,6 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
 
     @Autowired
     private UploadParams params;
-
-    @Autowired
-    private AreaOrgCodeMapper orgCodeMapper;
 
     @Override
     public Response<Object> register(AggregateAdminDTO params) {
@@ -105,6 +102,7 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
         String token = JwtUtil.getToken(params.getUsername(),params.getPassword());
         assert token != null;
         redisTemplate.opsForValue().set("token",token,15, TimeUnit.MINUTES);
+        StpUtil.login(params.getUsername());
         return Response.success("登录成功",token);
     }
 
