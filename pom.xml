@@ -35,6 +35,7 @@
         <module>aggregate-info</module>
         <module>aggregate-gateway</module>
         <module>aggregate-search</module>
+        <module>aggregate-third-data</module>
     </modules>
 
 
