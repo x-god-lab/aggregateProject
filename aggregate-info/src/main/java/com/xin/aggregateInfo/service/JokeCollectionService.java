@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.xin.aggregateInfo.pojo.dto.JokeCollectionDTO;
 import com.xin.aggregateInfo.pojo.entity.JokeCollection;
+import com.xin.aggregateInfo.pojo.vo.JokeCollectionVO;
 
 /**
  * <p>
@@ -16,5 +17,5 @@ import com.xin.aggregateInfo.pojo.entity.JokeCollection;
  */
 public interface JokeCollectionService extends IService<JokeCollection> {
 
-    PageInfo<JokeCollection> getJokeList(JokeCollectionDTO params);
+    PageInfo<JokeCollectionVO> getJokeList(JokeCollectionDTO params);
 }

@@ -25,3 +25,5 @@ sa-token:
   token-style: uuid
   # 是否输出操作日志
   is-log: false
+# 配置是否开启AOP参数加密解密，不配置默认为true
+isSecret: true

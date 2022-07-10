@@ -3,7 +3,7 @@ package com.xin.aggregateInfo.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.xin.aggregateInfo.pojo.dto.JokeCollectionDTO;
-import com.xin.aggregateInfo.pojo.entity.JokeCollection;
+import com.xin.aggregateInfo.pojo.vo.JokeCollectionVO;
 import com.xin.aggregateInfo.service.JokeCollectionService;
 import com.xin.utils.Response;
 import io.swagger.annotations.Api;
@@ -32,8 +32,8 @@ public class JokeCollectionController {
 
     @PostMapping("getJokeList")
     @ApiOperation("笑话列表")
-    public Response<PageInfo<JokeCollection>> getJokeList(@RequestBody JokeCollectionDTO params){
-        PageInfo<JokeCollection> jokeList = jokeCollectionService.getJokeList(params);
+    public Response<PageInfo<JokeCollectionVO>> getJokeList(@RequestBody JokeCollectionDTO params){
+        PageInfo<JokeCollectionVO> jokeList = jokeCollectionService.getJokeList(params);
         return Response.success("查询成功",jokeList);
     }
 }
