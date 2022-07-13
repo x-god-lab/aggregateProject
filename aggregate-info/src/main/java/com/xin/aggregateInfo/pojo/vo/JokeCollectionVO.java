@@ -1,13 +1,10 @@
 package com.xin.aggregateInfo.pojo.vo;
 
-import com.xin.aggregateInfo.annotation.Secret;
-import com.xin.aggregateInfo.annotation.vo.BaseVO;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-@Secret(value = BaseVO.class)
 public class JokeCollectionVO {
 
     private Integer id;
