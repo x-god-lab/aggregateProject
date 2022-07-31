@@ -18,10 +18,14 @@ public class CosConfig {
     @Bean
     public CorsWebFilter corsWebFilter(){
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true); //是否允许携带cookie
-        config.addAllowedOrigin("*"); //可接受的域，是一个具体域名或者*（代表任意域名）
-        config.addAllowedHeader("*"); //允许携带的头
-        config.addAllowedMethod("*"); //允许访问的方式
+        //是否允许携带cookie
+        config.setAllowCredentials(true);
+        //可接受的域，是一个具体域名或者*（代表任意域名）
+        config.addAllowedOrigin("*");
+        //允许携带的头
+        config.addAllowedHeader("*");
+        //允许访问的方式
+        config.addAllowedMethod("*");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
         source.registerCorsConfiguration("/**",config);
         return new CorsWebFilter(source);

@@ -1,6 +1,5 @@
 package com.xin.aggregateInfo.service.impl;
 
-import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
@@ -101,8 +100,7 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
         }
         String token = JwtUtil.getToken(params.getUsername(),params.getPassword());
         assert token != null;
-        redisTemplate.opsForValue().set("token",token,15, TimeUnit.MINUTES);
-        StpUtil.login(params.getUsername());
+        redisTemplate.opsForValue().set("token",token,60, TimeUnit.MINUTES);
         return Response.success("登录成功",token);
     }
 
