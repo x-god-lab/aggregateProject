@@ -34,6 +34,7 @@ public class SaTokenConfig {
                             StpUtil::checkLogin);
                     // 权限认证：不同接口访问权限不同
                     SaRouter.match("/api/aggregateInfo/jokeCollection/**", () -> StpUtil.checkPermission("api:aggregateInfo:jokeCollection"));
+                    SaRouter.match("/api/aggregateInfo/musicInformation/**", () -> StpUtil.checkPermission("api:aggregateInfo:musicInformation"));
                 })// setAuth方法异常处理
                 .setError(e -> {
                     //设置错误返回格式为JSON
