@@ -8,6 +8,7 @@ import com.xin.utils.Response;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,7 +32,7 @@ public interface AggregateAdminService extends IService<AggregateAdmin> {
     * @create 2021/11/21 14:58
     * @description 登录
     **/
-    Response<String> login(LoginDTO params);
+    Response<Map<String, String>> login(LoginDTO params) throws Exception;
 
     /**
     * @author xin

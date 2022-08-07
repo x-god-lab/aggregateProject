@@ -1,5 +1,6 @@
 package com.xin.aggregateInfo.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import com.xin.aggregateInfo.pojo.dto.AggregateAdminDTO;
@@ -7,6 +8,7 @@ import com.xin.aggregateInfo.pojo.dto.LoginDTO;
 import com.xin.aggregateInfo.pojo.entity.AggregateAdmin;
 import com.xin.aggregateInfo.service.AggregateAdminService;
 import com.xin.utils.Response;
+import com.xin.vo.AggregateAdminVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -50,7 +53,7 @@ public class AggregateAdminController {
 
     @ApiOperation("登录")
     @PostMapping("login")
-    public Response<String> login(@RequestBody @Validated LoginDTO params){
+    public Response<Map<String, String>> login(@RequestBody @Validated LoginDTO params) throws Exception {
         return aggregateAdminService.login(params);
     }
 
@@ -108,6 +111,12 @@ public class AggregateAdminController {
             return Response.success("文件上传成功",result);
         }
         return Response.error("文件上传失败");
+    }
+
+    @ApiOperation("获取个人信息")
+    @PostMapping("getAdminInfo")
+    public AggregateAdminVO getAdminInfo(){
+        return (AggregateAdminVO)StpUtil.getSession().get("admin");
     }
 }
 

@@ -1,27 +1,17 @@
-package com.xin.aggregateInfo.pojo.entity;
+package com.xin.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
- * <p>
- * 用户信息表	
- * </p>
- *
  * @author xin
- * @since 2021-11-14
  */
-@ApiModel(value = "用户信息表")
 @Data
-public class AggregateAdmin implements Serializable {
+public class AggregateAdminVO {
 
-
-    @TableId(value = "id")
     private String id;
 
     private String username;
@@ -29,14 +19,6 @@ public class AggregateAdmin implements Serializable {
     private String password;
 
     private String salt;
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
 
     /**
      * 头像
@@ -51,7 +33,6 @@ public class AggregateAdmin implements Serializable {
     /**
      * 昵称
      */
-    @TableField("nick_name")
     private String nickName;
 
     /**
@@ -62,21 +43,34 @@ public class AggregateAdmin implements Serializable {
     /**
      * 创建时间
      */
-    @TableField("create_time")
     private Date createTime;
 
     /**
      * 最后登录时间
      */
-    @TableField("login_time")
     private Date loginTime;
 
     /**
      * 帐号启用状态：0->禁用；1->启用
      */
-    @TableField("status")
     private Integer status;
 
-    @TableField("role_id")
     private String roleId;
+
+    private List<String> menuIdList;
+
+    private List<String> permissionList;
+
+
+    @Data
+    public static class RoleVO{
+
+        @ApiModelProperty("拥有角色Id")
+        private String menuId;
+
+        @ApiModelProperty("拥有权限")
+        private String perm;
+
+    }
 }
+

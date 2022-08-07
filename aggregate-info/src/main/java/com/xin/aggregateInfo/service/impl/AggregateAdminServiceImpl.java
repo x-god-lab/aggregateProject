@@ -1,6 +1,10 @@
 package com.xin.aggregateInfo.service.impl;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -17,8 +21,8 @@ import com.xin.aggregateInfo.pojo.entity.AggregateAdmin;
 import com.xin.aggregateInfo.pojo.upload.UploadParams;
 import com.xin.aggregateInfo.service.AggregateAdminService;
 import com.xin.constant.Constants;
-import com.xin.utils.JwtUtil;
 import com.xin.utils.Response;
+import com.xin.vo.AggregateAdminVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.Md5Crypt;
 import org.springframework.beans.BeanUtils;
@@ -29,8 +33,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -66,7 +72,7 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
         AggregateAdmin aggregateAdmin = new AggregateAdmin();
         BeanUtils.copyProperties(params,aggregateAdmin);
         aggregateAdmin.setId(IdUtil.fastSimpleUUID());
-        aggregateAdmin.setCreateTime(LocalDateTime.now());
+        aggregateAdmin.setCreateTime(DateTime.now());
         aggregateAdmin.setStatus(Constants.STATUS);
         aggregateAdmin.setSalt(getSalt());
         aggregateAdmin.setPassword(SecureUtil.md5(params.getPassword()+aggregateAdmin.getSalt()));
@@ -84,25 +90,47 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
     }
 
     @Override
-    public Response<String> login(LoginDTO params){
+    public Response<Map<String, String>> login(LoginDTO params) throws Exception {
         String code = (String) redisTemplate.opsForValue().get("generate:login:code");
         if (!params.getCode().equals(code)){
             return Response.error("验证码不正确");
         }
+        SaTokenInfo saTokenInfo = this.login(params.getUsername(), params.getPassword());
+        if (ObjectUtil.isEmpty(saTokenInfo)){
+            throw new Exception("用户名或者密码错误");
+        }
+        Map<String, String> tokenMap = new HashMap<>(2);
+        tokenMap.put("token", saTokenInfo.getTokenValue());
+        tokenMap.put("tokenHead", saTokenInfo.getTokenName());
+        return Response.success(tokenMap);
+    }
+
+    /**
+     * 账号密码校验
+     */
+    private SaTokenInfo login(String username,String password) throws Exception {
         QueryWrapper<AggregateAdmin> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username", params.getUsername());
+        queryWrapper.eq("username", username);
         AggregateAdmin admin = baseMapper.selectOne(queryWrapper);
         if (ObjectUtil.isEmpty(admin)){
-            return Response.error("没有该用户的信息，请确认用户名是否正确");
+            throw new Exception("没有该用户的信息，请确认用户名是否正确");
         }
-        if (!SecureUtil.md5(params.getPassword()+admin.getSalt()).equals(admin.getPassword())){
-            return Response.error("密码错误，请重新输入！");
+        if (!SecureUtil.md5(password+admin.getSalt()).equals(admin.getPassword())){
+            throw new Exception("密码错误，请重新输入！");
         }
-        String token = JwtUtil.getToken(params.getUsername(),params.getPassword());
-        assert token != null;
-        redisTemplate.opsForValue().set("token",token,60, TimeUnit.MINUTES);
-        return Response.success("登录成功",token);
+
+        AggregateAdminVO adminVO = BeanUtil.copyProperties(admin,AggregateAdminVO.class);
+        List<AggregateAdminVO.RoleVO> roleList = baseMapper.getRoleList(admin.getRoleId());
+        adminVO.setMenuIdList(roleList.stream().map(AggregateAdminVO.RoleVO::getMenuId).collect(Collectors.toList()));
+        adminVO.setPermissionList(roleList.stream().map(AggregateAdminVO.RoleVO::getPerm).collect(Collectors.toList()));
+        // 密码校验成功后登录，一行代码实现登录
+        StpUtil.login(username);
+        // 将用户信息存储到Session中
+        StpUtil.getSession().set("admin",adminVO);
+        // 获取当前用户的登录信息
+        return StpUtil.getTokenInfo();
     }
+
 
     private Ftp getFtpConfig(){
         return new Ftp(params.getHost(),params.getPort(),params.getUsername(),params.getPassword());
