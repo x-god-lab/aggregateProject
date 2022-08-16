@@ -20,15 +20,21 @@ public class CommonController {
     @Autowired
     private CommonService commonService;
 
-    @PostMapping("updateByMinio")
+    @PostMapping("uploadByMinio")
     @ApiOperation("使用minio进行上传")
-    public Response<String> updateByMinio(MultipartFile file) {
-        return Response.success(commonService.updateByMinio(file));
+    public Response<String> uploadByMinio(MultipartFile file) {
+        return Response.success(commonService.uploadByMinio(file));
     }
 
     @PostMapping("deleteByMinio")
     @ApiOperation("使用minio删除")
     public Response<Boolean> deleteByMinio(@RequestBody MinioDeleteParams params){
         return Response.success(commonService.deleteByMinio(params));
+    }
+
+    @PostMapping("downByMinio")
+    @ApiOperation("使用minio下载")
+    public Response<String> downByMinio(){
+        return null;
     }
 }

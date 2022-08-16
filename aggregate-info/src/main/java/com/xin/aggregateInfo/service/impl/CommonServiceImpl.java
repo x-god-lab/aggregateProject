@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class CommonServiceImpl implements CommonService {
 
     @Override
-    public String updateByMinio(MultipartFile file){
+    public String uploadByMinio(MultipartFile file){
         return MinioUtil.uploadFile(file, MinioEnum.PUBLIC_OSS.getBucketName());
     }
 
