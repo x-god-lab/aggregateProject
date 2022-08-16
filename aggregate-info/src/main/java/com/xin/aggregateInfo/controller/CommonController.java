@@ -6,7 +6,10 @@ import com.xin.utils.Response;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -30,11 +33,5 @@ public class CommonController {
     @ApiOperation("使用minio删除")
     public Response<Boolean> deleteByMinio(@RequestBody MinioDeleteParams params){
         return Response.success(commonService.deleteByMinio(params));
-    }
-
-    @PostMapping("downByMinio")
-    @ApiOperation("使用minio下载")
-    public Response<String> downByMinio(){
-        return null;
     }
 }

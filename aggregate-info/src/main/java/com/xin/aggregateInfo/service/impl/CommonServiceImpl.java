@@ -4,6 +4,7 @@ import com.xin.aggregateInfo.pojo.upload.MinioDeleteParams;
 import com.xin.aggregateInfo.service.CommonService;
 import com.xin.aggregateInfo.util.MinioUtil;
 import com.xin.enumeration.MinioEnum;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
