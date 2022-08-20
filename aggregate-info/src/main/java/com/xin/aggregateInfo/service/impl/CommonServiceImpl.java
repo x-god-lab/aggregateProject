@@ -28,12 +28,12 @@ public class CommonServiceImpl implements CommonService {
     public String uploadByMinio(MultipartFile file,String dbTable){
         FileUploadInfo fileUploadInfo = new FileUploadInfo();
         fileUploadInfo.setFileId(IdUtil.fastSimpleUUID());
-        fileUploadInfo.setFileType(Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().indexOf(".")+1));
+        fileUploadInfo.setFileType(Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf(".")+1));
         fileUploadInfo.setCreateTime(DateUtil.date());
         fileUploadInfo.setAssociateTable(dbTable);
         String uploadFile = MinioUtil.uploadFile(file, MinioEnum.PUBLIC_OSS.getBucketName());
         fileUploadInfo.setFilePath(uploadFile);
-        fileUploadInfo.setFileName(StrUtil.subBetween(uploadFile,Objects.requireNonNull(uploadFile).substring(0,uploadFile.lastIndexOf("/")+1),uploadFile.substring(uploadFile.indexOf("."))));
+        fileUploadInfo.setFileName(StrUtil.subBetween(uploadFile,Objects.requireNonNull(uploadFile).substring(0,uploadFile.lastIndexOf("/")+1),uploadFile.substring(uploadFile.lastIndexOf("."))));
         fileUploadInfoMapper.insert(fileUploadInfo);
         return uploadFile;
     }
