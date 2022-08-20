@@ -55,7 +55,7 @@ public class MinioUtil {
             }
             String originalFilename = file.getOriginalFilename();
             assert originalFilename != null;
-            String filePath = getFileName() + IdUtil.fastSimpleUUID() + originalFilename.substring(originalFilename.indexOf("."));
+            String filePath = getFileName() + IdUtil.fastSimpleUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
             minioClient.putObject(PutObjectArgs.builder()
                     .bucket(bucketName)
                     .object(filePath)
