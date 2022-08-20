@@ -6,12 +6,16 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.log.StaticLog;
 import com.xin.aggregateInfo.pojo.upload.MinioConfigParams;
 import io.minio.*;
+import io.minio.http.Method;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @description
@@ -59,12 +63,47 @@ public class MinioUtil {
             minioClient.putObject(PutObjectArgs.builder()
                     .bucket(bucketName)
                     .object(filePath)
-                    .stream(file.getInputStream(), file.getSize(), -1).build());
+                    .stream(file.getInputStream(), file.getSize(), -1)
+                    .contentType(file.getContentType()).build());
             return filePath;
         }catch (Exception e){
             StaticLog.error(e);
         }
         return null;
+    }
+
+    /**
+     * 预览图片
+     * @param fileName
+     * @return
+     */
+    @SneakyThrows
+    public static String preview(String fileName,String bucketName){
+        Map<String, String> reqParams = new HashMap<String, String>(1);
+        reqParams.put("default","application/octet-stream");
+        reqParams.put("jpg", "image/jpeg");
+        reqParams.put("tiff", "image/tiff");
+        reqParams.put("gif", "image/gif");
+        reqParams.put("jfif", "image/jpeg");
+        reqParams.put("png", "image/png");
+        reqParams.put("tif", "image/tiff");
+        reqParams.put("ico", "image/x-icon");
+        reqParams.put("jpeg", "image/jpeg");
+        reqParams.put("wbmp", "image/vnd.wap.wbmp");
+        reqParams.put("fax", "image/fax");
+        reqParams.put("net", "image/pnetvue");
+        reqParams.put("jpe", "image/jpeg");
+        reqParams.put("rp", "image/vnd.rn-realpix");
+        reqParams.put("mp4", "video/mp4");
+        // 查看文件地址
+        return minioClient.getPresignedObjectUrl(
+                GetPresignedObjectUrlArgs.builder()
+                        .method(Method.GET)
+                        .bucket(bucketName)
+                        .object(fileName)
+                        .expiry(2, TimeUnit.HOURS)
+                        .extraQueryParams(reqParams)
+                        .build());
     }
 
 

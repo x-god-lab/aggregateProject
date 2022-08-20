@@ -20,4 +20,11 @@ public interface CommonService {
      * @return
      */
     Boolean deleteByMinio(MinioDeleteParams params);
+
+    /**
+     * 预览照片
+     * @param params
+     * @return
+     */
+    String previewPhoto(MinioDeleteParams params);
 }

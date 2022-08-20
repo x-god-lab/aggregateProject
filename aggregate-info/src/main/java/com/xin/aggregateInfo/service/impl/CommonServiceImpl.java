@@ -42,4 +42,9 @@ public class CommonServiceImpl implements CommonService {
         MinioUtil.deleteFile(params.getBucketName(),params.getFilePath());
         return true;
     }
+
+    @Override
+    public String previewPhoto(MinioDeleteParams params) {
+        return MinioUtil.preview(params.getFilePath(),params.getBucketName());
+    }
 }

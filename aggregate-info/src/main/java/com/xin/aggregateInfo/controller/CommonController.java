@@ -34,4 +34,10 @@ public class CommonController {
     public Response<Boolean> deleteByMinio(@RequestBody MinioDeleteParams params){
         return Response.success(commonService.deleteByMinio(params));
     }
+
+    @PostMapping("previewPhoto")
+    @ApiOperation("预览照片")
+    public Response<String> previewPhoto(@RequestBody MinioDeleteParams params){
+        return Response.success(commonService.previewPhoto(params));
+    }
 }
