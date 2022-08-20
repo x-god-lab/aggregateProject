@@ -2,7 +2,9 @@ package com.xin.aggregateInfo.pojo.upload;
 
 import com.xin.enumeration.MinioEnum;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @description
@@ -10,6 +12,8 @@ import lombok.Data;
  * @create:2022-08-15 05:21
  **/
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MinioDeleteParams {
 
     @ApiModelProperty("文件地址")

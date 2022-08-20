@@ -12,7 +12,7 @@ public interface CommonService {
      * @param file
      * @return
      */
-    String uploadByMinio(MultipartFile file);
+    String uploadByMinio(MultipartFile file,String dbTable);
 
     /**
      * 使用Minio进行删除

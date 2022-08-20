@@ -25,8 +25,8 @@ public class CommonController {
 
     @PostMapping("uploadByMinio")
     @ApiOperation("使用minio进行上传")
-    public Response<String> uploadByMinio(MultipartFile file) {
-        return Response.success(commonService.uploadByMinio(file));
+    public Response<String> uploadByMinio(MultipartFile file,String dbTable) {
+        return Response.success(commonService.uploadByMinio(file,dbTable));
     }
 
     @PostMapping("deleteByMinio")

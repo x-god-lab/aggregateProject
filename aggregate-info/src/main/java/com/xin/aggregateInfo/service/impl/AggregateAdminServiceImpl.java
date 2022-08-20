@@ -137,29 +137,6 @@ public class AggregateAdminServiceImpl extends ServiceImpl<AggregateAdminMapper,
     }
 
     @Override
-    public String upload(MultipartFile file) throws IOException {
-        Ftp ftp = getFtpConfig();
-        String pathName = DateUtil.format(DateUtil.date(), DatePattern.NORM_DATE_PATTERN);
-        boolean exist = ftp.exist(params.getFilePath() + pathName);
-        if (!exist){
-            boolean mkdir = ftp.mkdir(pathName);
-            if (!mkdir){
-                return "创建文件夹失败";
-            }
-        }
-        String filename = file.getOriginalFilename();
-        String subAfter = StrUtil.subAfter(filename, ".", true);
-        filename = IdUtil.fastSimpleUUID()+"."+subAfter;
-        boolean upload = ftp.upload(pathName, filename, file.getInputStream());
-        ftp.close();
-        if (upload){
-            return params.getFilePath()+pathName+"/"+filename;
-        }else {
-            return null;
-        }
-    }
-
-    @Override
     public String deleteFile(String fileName) {
         Ftp ftp = getFtpConfig();
         boolean existFile = ftp.existFile(fileName);

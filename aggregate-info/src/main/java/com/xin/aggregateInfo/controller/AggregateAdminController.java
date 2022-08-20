@@ -7,6 +7,8 @@ import com.xin.aggregateInfo.pojo.dto.AggregateAdminDTO;
 import com.xin.aggregateInfo.pojo.dto.LoginDTO;
 import com.xin.aggregateInfo.pojo.entity.AggregateAdmin;
 import com.xin.aggregateInfo.service.AggregateAdminService;
+import com.xin.aggregateInfo.util.MinioUtil;
+import com.xin.enumeration.MinioEnum;
 import com.xin.utils.Response;
 import com.xin.vo.AggregateAdminVO;
 import io.swagger.annotations.Api;
@@ -59,8 +61,7 @@ public class AggregateAdminController {
 
     @ApiOperation("生成图片验证码")
     @GetMapping("getShearCaptcha")
-    public Response<String> getShearCaptcha(HttpServletRequest request, HttpServletResponse response) {
-
+    public void getShearCaptcha(HttpServletRequest request, HttpServletResponse response) {
         OutputStream out = null;
         try {
             // 取得输出流
@@ -80,8 +81,6 @@ public class AggregateAdminController {
             }
             out.flush();  // 将缓存中的数据立即强制刷新, 将缓冲区的数据输出到客户端浏览器
             out.close(); // 关闭输出流
-
-            return null;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -93,19 +92,18 @@ public class AggregateAdminController {
                 }
             }
         }
-        return Response.error("图片生成失败");
     }
 
     @ApiOperation("用户上传头像")
     @PostMapping("upload")
     @Transactional
-    public Response<String> upload(@RequestParam("file") MultipartFile file,@RequestParam("id") String id) throws IOException {
-        // 上传文件到FTP
-        String result = aggregateAdminService.upload(file);
+    public Response<String> upload(@RequestParam("file") MultipartFile file,@RequestParam("id") String id){
+        // 上传文件到Minio
+        String result = MinioUtil.uploadFile(file, MinioEnum.PUBLIC_OSS.getBucketName());
         // 保存文件到数据库
         AggregateAdmin admin = new AggregateAdmin();
         admin.setId(id);
-        admin.setIcon(result);
+        admin.setIcon("/"+result);
         boolean updateById = aggregateAdminService.updateById(admin);
         if (updateById){
             return Response.success("文件上传成功",result);
