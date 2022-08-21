@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -27,15 +29,9 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public String uploadByMinio(MultipartFile file,String dbTable){
         FileUploadInfo fileUploadInfo = new FileUploadInfo();
-        fileUploadInfo.setFileId(IdUtil.fastSimpleUUID());
-        fileUploadInfo.setFileType(Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf(".")+1));
-        fileUploadInfo.setCreateTime(DateUtil.date());
-        fileUploadInfo.setAssociateTable(dbTable);
-        String uploadFile = MinioUtil.uploadFile(file, MinioEnum.PUBLIC_OSS.getBucketName());
-        fileUploadInfo.setFilePath(uploadFile);
-        fileUploadInfo.setFileName(StrUtil.subBetween(uploadFile,Objects.requireNonNull(uploadFile).substring(0,uploadFile.lastIndexOf("/")+1),uploadFile.substring(uploadFile.lastIndexOf("."))));
+        getFileUploadInfo(fileUploadInfo,file,dbTable);
         fileUploadInfoMapper.insert(fileUploadInfo);
-        return uploadFile;
+        return fileUploadInfo.getFilePath();
     }
     @Override
     public Boolean deleteByMinio(MinioDeleteParams params) {
@@ -46,5 +42,28 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public String previewPhoto(MinioDeleteParams params) {
         return MinioUtil.preview(params.getFilePath(),params.getBucketName());
+    }
+
+    @Override
+    public List<String> uploadBatchByMinio(List<MultipartFile> files, String dbTable) {
+        List<String> list = new ArrayList<>();
+        for (MultipartFile file : files) {
+            FileUploadInfo fileUploadInfo = new FileUploadInfo();
+            getFileUploadInfo(fileUploadInfo,file,dbTable);
+            list.add(fileUploadInfo.getFilePath());
+            fileUploadInfoMapper.insert(fileUploadInfo);
+        }
+        return list;
+
+    }
+
+    private void getFileUploadInfo(FileUploadInfo fileUploadInfo,MultipartFile file,String dbTable){
+        fileUploadInfo.setFileId(IdUtil.fastSimpleUUID());
+        fileUploadInfo.setFileType(Objects.requireNonNull(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf(".")+1));
+        fileUploadInfo.setCreateTime(DateUtil.date());
+        fileUploadInfo.setAssociateTable(dbTable);
+        String uploadFile = MinioUtil.uploadFile(file, MinioEnum.PUBLIC_OSS.getBucketName());
+        fileUploadInfo.setFilePath(uploadFile);
+        fileUploadInfo.setFileName(StrUtil.subBetween(uploadFile,Objects.requireNonNull(uploadFile).substring(0,uploadFile.lastIndexOf("/")+1),uploadFile.substring(uploadFile.lastIndexOf("."))));
     }
 }
