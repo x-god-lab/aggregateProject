@@ -2,8 +2,8 @@ package com.xin.aggregateInfo;
 
 import com.alibaba.fastjson.JSON;
 import com.mzlion.easyokhttp.HttpClient;
-import com.xin.aggregateInfo.mapper.JokeCollectionMapper;
-import com.xin.aggregateInfo.mapper.MusicInformationMapper;
+import com.xin.aggregateInfo.mappers.master.JokeCollectionMapper;
+import com.xin.aggregateInfo.mappers.master.MusicInformationMapper;
 import com.xin.aggregateInfo.pojo.entity.JokeCollection;
 import com.xin.aggregateInfo.pojo.entity.MusicInformation;
 import okhttp3.*;

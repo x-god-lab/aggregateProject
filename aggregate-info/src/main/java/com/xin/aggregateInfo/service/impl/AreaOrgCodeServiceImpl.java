@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xin.aggregateInfo.mapper.AreaOrgCodeMapper;
+import com.xin.aggregateInfo.mappers.master.AreaOrgCodeMapper;
 import com.xin.aggregateInfo.pojo.dto.AreaOrgCodeDTO;
 import com.xin.aggregateInfo.pojo.entity.AreaOrgCode;
 import com.xin.aggregateInfo.pojo.vo.AreaOrgCodeVO;

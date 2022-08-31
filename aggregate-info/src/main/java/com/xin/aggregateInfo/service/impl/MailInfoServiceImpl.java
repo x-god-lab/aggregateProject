@@ -4,7 +4,7 @@ package com.xin.aggregateInfo.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xin.aggregateInfo.constant.Constants;
-import com.xin.aggregateInfo.mapper.MailInfoMapper;
+import com.xin.aggregateInfo.mappers.master.MailInfoMapper;
 import com.xin.aggregateInfo.pojo.dto.MailDTO;
 import com.xin.aggregateInfo.pojo.entity.MailInfo;
 import com.xin.aggregateInfo.service.MailInfoService;

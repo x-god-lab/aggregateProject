@@ -10,7 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mzlion.easyokhttp.HttpClient;
 import com.xin.aggregateInfo.constant.Constants;
-import com.xin.aggregateInfo.mapper.MusicInformationMapper;
+import com.xin.aggregateInfo.mappers.master.MusicInformationMapper;
 import com.xin.aggregateInfo.pojo.dto.MusicDTO;
 import com.xin.aggregateInfo.pojo.dto.SaveMusicDTO;
 import com.xin.aggregateInfo.pojo.entity.MusicInformation;

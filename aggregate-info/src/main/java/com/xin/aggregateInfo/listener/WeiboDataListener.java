@@ -5,7 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.util.ListUtils;
-import com.xin.aggregateInfo.mapper.WeiboDataMapper;
+import com.xin.aggregateInfo.mappers.master.WeiboDataMapper;
 import com.xin.aggregateInfo.pojo.dto.WeiboDataDTO;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

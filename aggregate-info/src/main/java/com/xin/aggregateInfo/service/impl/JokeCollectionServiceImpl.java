@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.xin.aggregateInfo.mapper.JokeCollectionMapper;
+import com.xin.aggregateInfo.mappers.master.JokeCollectionMapper;
 import com.xin.aggregateInfo.pojo.dto.JokeCollectionDTO;
 import com.xin.aggregateInfo.pojo.entity.JokeCollection;
 import com.xin.aggregateInfo.pojo.vo.JokeCollectionVO;

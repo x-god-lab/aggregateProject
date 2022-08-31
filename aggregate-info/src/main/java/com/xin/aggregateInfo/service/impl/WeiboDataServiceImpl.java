@@ -5,7 +5,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xin.aggregateInfo.listener.WeiboDataListener;
-import com.xin.aggregateInfo.mapper.WeiboDataMapper;
+import com.xin.aggregateInfo.mappers.master.WeiboDataMapper;
 import com.xin.aggregateInfo.pojo.dto.WeiboDataDTO;
 import com.xin.aggregateInfo.pojo.entity.WeiboData;
 import com.xin.aggregateInfo.service.WeiboDataService;

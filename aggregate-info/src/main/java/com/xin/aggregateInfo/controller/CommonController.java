@@ -48,4 +48,11 @@ public class CommonController {
     public Response<String> previewPhoto(@RequestBody MinioDeleteParams params){
         return Response.success(commonService.previewPhoto(params));
     }
+
+    @PostMapping("pdfToWord")
+    @ApiOperation("pdf转word")
+    public Response<String> pdfToWord(MultipartFile file,String path){
+        commonService.pdfToWord(file,path);
+        return Response.success("转换成功");
+    }
 }
