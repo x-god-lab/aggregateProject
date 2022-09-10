@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xin.aggregateInfo.mapper.master.WeiboDataMapper">
+
+    <sql id="weiboSql">
+        id,weibo_id,content,article_url,original_pictures,video_url,publish_place,publish_time,publish_tool,up_num,retweet_num,comment_num,author,create_time,update_time
+    </sql>
+    
+    <insert id="insertBatch">
+        insert into weibo_data(<include refid="weiboSql"/>) values
+        <foreach collection="data" separator="," item="item" index="index">
+            (#{item.id},#{item.weiboId},#{item.content},#{item.articleUrl},
+             #{item.originalPictures},#{item.videoUrl},
+            #{item.publishPlace},#{item.publishTime},#{item.publishTool},#{item.upNum},#{item.retweetNum},#{item.commentNum},#{item.author},#{item.createTime},#{item.updateTime}
+            )
+        </foreach>
+    </insert>
+</mapper>

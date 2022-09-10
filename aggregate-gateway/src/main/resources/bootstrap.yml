@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: aggregate-gateway
+  cloud:
+    nacos:
+      config:
+        server-addr:
+        namespace:
+        file-extension: yaml

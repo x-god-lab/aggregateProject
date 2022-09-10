@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        server-addr:
+        namespace:
+        file-extension: yaml
+  application:
+    name: aggregate-third-data
