@@ -96,6 +96,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.mzlion/easy-okhttp -->
+        <dependency>
+            <groupId>com.mzlion</groupId>
+            <artifactId>easy-okhttp</artifactId>
+            <version>1.1.4</version>
+        </dependency>
     </dependencies>
 
 </project>

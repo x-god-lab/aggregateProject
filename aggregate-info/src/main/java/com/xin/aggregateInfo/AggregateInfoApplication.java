@@ -13,7 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 **/
 @EnableDiscoveryClient
 @SpringBootApplication
-@MapperScan("com.xin.aggregateInfo.mappers.master")
+@MapperScan("com.xin.aggregateInfo.mappers")
 @EnableSwagger2
 public class AggregateInfoApplication {
 

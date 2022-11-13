@@ -4,8 +4,8 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr:
-        namespace:
+        server-addr: 101.43.61.239:8848
+        namespace: 690e45ec-c5de-4587-bcb1-f0aad9e1d670
         file-extension: yaml
   application:
     name: aggregate-third-data

@@ -84,7 +84,7 @@ public class SearchController{
     @ApiOperation("插入或者更新一条数据")
     @PostMapping("insertOrUpdate")
     public Response<String> insertOrUpdate(@RequestBody UserInfo params){
-        EsEntity entity = new EsEntity();
+        EsEntity<UserInfo> entity = new EsEntity<>();
         params.setUpdateTime(DateTime.now());
         params.setCreateTime(DateTime.now());
         params.setBirth(DateTime.now());
