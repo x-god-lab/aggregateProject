@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xin.aggregateInfo.mappers.master.BookSourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xin.aggregateInfo.pojo.entity.BookSource">
+        <id column="book_source_comment" property="bookSourceComment" />
+        <result column="book_source_group" property="bookSourceGroup" />
+        <result column="book_source_name" property="bookSourceName" />
+        <result column="book_source_type" property="bookSourceType" />
+        <result column="book_source_url" property="bookSourceUrl" />
+        <result column="book_url_pattern" property="bookUrlPattern" />
+        <result column="cover_decode_js" property="coverDecodeJs" />
+        <result column="custom_order" property="customOrder" />
+        <result column="enabled" property="enabled" />
+        <result column="enabled_cookie_jar" property="enabledCookieJar" />
+        <result column="enabled_explore" property="enabledExplore" />
+        <result column="explore_url" property="exploreUrl" />
+        <result column="header" property="header" />
+        <result column="last_update_time" property="lastUpdateTime" />
+        <result column="login_ui" property="loginUi" />
+        <result column="login_url" property="loginUrl" />
+        <result column="respond_time" property="respondTime" />
+        <result column="rule_book_info" property="ruleBookInfo" />
+        <result column="rule_content" property="ruleContent" />
+        <result column="rule_explore" property="ruleExplore" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        book_source_comment, book_source_group, book_source_name, book_source_type, book_source_url, book_url_pattern, cover_decode_js, custom_order, enabled, enabled_cookie_jar, enabled_explore, explore_url, header, last_update_time, login_ui, login_url, respond_time, rule_book_info, rule_content, rule_explore
+    </sql>
+
+</mapper>

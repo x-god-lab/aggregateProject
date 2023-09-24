@@ -3,15 +3,12 @@ package com.xin.aggregateInfo.service.impl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import com.spire.pdf.FileFormat;
-import com.spire.pdf.PdfDocument;
 import com.xin.aggregateInfo.mappers.master.FileUploadInfoMapper;
 import com.xin.aggregateInfo.pojo.entity.FileUploadInfo;
 import com.xin.aggregateInfo.pojo.upload.MinioDeleteParams;
 import com.xin.aggregateInfo.service.CommonService;
 import com.xin.aggregateInfo.util.MinioUtil;
 import com.xin.enumeration.MinioEnum;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,15 +55,6 @@ public class CommonServiceImpl implements CommonService {
         }
         return list;
 
-    }
-
-    @Override
-    @SneakyThrows
-    public void pdfToWord(MultipartFile file,String path) {
-        PdfDocument pdfDocument = new PdfDocument();
-        pdfDocument.loadFromFile(path);
-        pdfDocument.saveToFile(Objects.requireNonNull(file.getOriginalFilename()).replace(".pdf","")+".docx", FileFormat.DOCX);
-        pdfDocument.close();
     }
 
     private void getFileUploadInfo(FileUploadInfo fileUploadInfo,MultipartFile file,String dbTable){

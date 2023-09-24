@@ -37,10 +37,4 @@ public interface CommonService {
      * @return
      */
     List<String> uploadBatchByMinio(List<MultipartFile> files, String dbTable);
-
-    /**
-     * pdf转word文件
-     * @param file
-     */
-    void pdfToWord(MultipartFile file,String path);
 }

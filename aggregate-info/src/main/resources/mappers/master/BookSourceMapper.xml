@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xin.aggregateInfo.mappers.master.BookSourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xin.aggregateInfo.pojo.entity.BookSource">
+        <result column="bookSourceComment" property="bookSourceComment" />
+        <result column="bookSourceGroup" property="bookSourceGroup" />
+        <result column="bookSourceName" property="bookSourceName" />
+        <result column="bookSourceType" property="bookSourceType" />
+        <result column="bookSourceUrl" property="bookSourceUrl" />
+        <result column="bookUrlPattern" property="bookUrlPattern" />
+        <result column="coverDecodeJs" property="coverDecodeJs" />
+        <result column="customOrder" property="customOrder" />
+        <result column="enabled" property="enabled" />
+        <result column="enabledCookieJar" property="enabledCookieJar" />
+        <result column="enabledExplore" property="enabledExplore" />
+        <result column="exploreUrl" property="exploreUrl" />
+        <result column="header" property="header" />
+        <result column="lastUpdateTime" property="lastUpdateTime" />
+        <result column="loginUi" property="loginUi" />
+        <result column="loginUrl" property="loginUrl" />
+        <result column="respondTime" property="respondTime" />
+        <result column="ruleBookInfo" property="ruleBookInfo" />
+        <result column="ruleContent" property="ruleContent" />
+        <result column="ruleExplore" property="ruleExplore" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        bookSourceComment, bookSourceGroup, bookSourceName, bookSourceType, bookSourceUrl, bookUrlPattern, coverDecodeJs, customOrder, enabled, enabledCookieJar, enabledExplore, exploreUrl, header, lastUpdateTime, loginUi, loginUrl, respondTime, ruleBookInfo, ruleContent, ruleExplore
+    </sql>
+
+</mapper>
